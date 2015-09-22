@@ -1,12 +1,14 @@
 require 'spec_helper'
 
 describe Api::V1::UsersController do
-  before(:each) { request.headers['Accept'] = "application/vnd.marketplace.v1" }
+
+  before(:each) { request.headers['Accept'] = "application/vnd.marketplace.v1, #{Mime::JSON}"  }
+  before(:each) { request.headers['Content-Type'] = Mime::JSON.to_s }
 
   describe "GET #show" do
     before(:each) do
       @user = FactoryGirl.create :user
-      get :show, id: @user.id, format: :json
+      get :show, id: @user.id
     end
 
     it "returns the information about a reporter on a hash" do
@@ -21,7 +23,7 @@ describe Api::V1::UsersController do
     context "when is successfully created" do
       before(:each) do
         @user_attributes = FactoryGirl.attributes_for :user
-        post :create, { user: @user_attributes }, format: :json
+        post :create, { user: @user_attributes }
       end
 
       it "renders the json represetation for the user record just created" do
@@ -35,7 +37,7 @@ describe Api::V1::UsersController do
     context "when is not created" do
       before(:each) do
         @invalid_user_attributes = { password: "12345678", password_confirmation: "12345678" }
-        post :create, { user: @invalid_user_attributes }, format: :json
+        post :create, { user: @invalid_user_attributes }
       end
 
       it "renders error json" do
@@ -57,7 +59,7 @@ describe Api::V1::UsersController do
     context "when is successfully updated" do
       before(:each) do
         @user = FactoryGirl.create :user
-        patch :update, { id: @user.id, user: { email: "newemail@example.com" } }, format: :json
+        patch :update, { id: @user.id, user: { email: "newemail@example.com" } }
       end
 
       it "renders the json represetation of the user" do
@@ -71,7 +73,7 @@ describe Api::V1::UsersController do
     context "when is not created" do
       before(:each) do
         @user = FactoryGirl.create :user
-        patch :update, { id: @user.id, user: { email: "wrong.email" } }, format: :json
+        patch :update, { id: @user.id, user: { email: "wrong.email" } }
       end
 
       it "renders errors json" do
@@ -91,7 +93,7 @@ describe Api::V1::UsersController do
   describe "DELETE #destroy" do
     before(:each) do
       @user = FactoryGirl.create :user
-      delete :destroy, { id: @user.id }, format: :json
+      delete :destroy, { id: @user.id }
     end
 
     it { should respond_with 204 }
