@@ -31,6 +31,7 @@ RSpec.configure do |config|
 
   config.include Request::JSONHelpers, :type => :controller
   config.include Request::HeadersHelpers, :type => :controller
+  config.include Devise::TestHelpers, :type => :controller
 
   config.before(:each, type: :controller) do
     include_header_apis
