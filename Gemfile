@@ -12,6 +12,12 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'active_model_serializers'
 gem "devise"
+gem 'sabisu_rails', github: "IcaliaLabs/sabisu-rails"
+gem 'compass-rails', '2.0.5'
+gem 'furatto'
+gem 'font-awesome-rails'
+gem 'simple_form'
+
 group :development do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
